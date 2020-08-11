@@ -8,7 +8,14 @@ module.exports = function (app) {
     res.json(dbJson);
   });
 
-  app.post("/api/notes", function (req, res) {});
+  app.post("/api/notes", function (req, res) {
+    dbJson = JSON.parse(fs.readFileSync(json, "utf-8"));
+    var note = {
+      title: req.body.title,
+      text: req.body.text,
+    };
+    note.id = Math.floor(Math.random() * Date.now());
+  });
 
   app.delete("/api/notes", function (req, res) {
     dbJson = JSON.parse(fs.readFileSync(json, "utf-8"));
