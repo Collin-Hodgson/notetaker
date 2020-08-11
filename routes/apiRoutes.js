@@ -27,8 +27,15 @@ module.exports = function (app) {
     res.json(newNote);
   });
 
-  app.delete("/api/notes", function (req, res) {
+  app.delete("/api/notes/:id", function (req, res) {
     dbJson = JSON.parse(fs.readFileSync(json, "utf-8"));
-    let id = req.params.id;
+    var id = req.params.id;
+    dbJson = dbJson.filter((selectNote) => {
+      return selectNote.id != id;
+    });
+
+    let noteDelete = JSON.stringify(dbJson);
+    writedb(noteDelete);
+    res.json(dbJson);
   });
 };
